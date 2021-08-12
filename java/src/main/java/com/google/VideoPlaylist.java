@@ -7,6 +7,7 @@ import java.util.List;
  * A class used to represent a Playlist
  */
 class VideoPlaylist {
+
   String playlistName;
   List<String> videos;
 

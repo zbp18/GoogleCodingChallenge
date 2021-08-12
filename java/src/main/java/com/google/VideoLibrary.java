@@ -2,7 +2,12 @@ package com.google;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -90,7 +95,7 @@ class VideoLibrary {
    */
   List<Video> getAllowedVideos() {
     List<Video> allowedVideos = new ArrayList<>();
-    for (String videoId: this.videos.keySet()) {
+    for (String videoId : this.videos.keySet()) {
       if (!this.flaggedVideos.containsKey(videoId)) {
         allowedVideos.add(this.videos.get(videoId));
       }
@@ -101,7 +106,7 @@ class VideoLibrary {
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
-    for (String videoId: this.videos.keySet()) {
+    for (String videoId : this.videos.keySet()) {
       Video video = this.getVideo(videoId);
       stringBuilder.append("  " + video);
       if (this.isFlagged(video.getVideoId())) {

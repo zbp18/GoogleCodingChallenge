@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * A class used to represent a Video.
  */
-class Video implements Comparable<Video>{
+class Video implements Comparable<Video> {
 
   private final String title;
   private final String videoId;

@@ -152,7 +152,7 @@ class CommandParser {
       default:
         System.out.println(
             "Please enter a valid command, type HELP for a list of "
-            + "available commands.");
+                + "available commands.");
         break;
     }
   }

@@ -1,6 +1,14 @@
 package com.google;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -74,7 +82,7 @@ public class VideoPlayer {
     } else {
       System.out.printf("Stopping video: %s%n", currentVideo.getTitle());
       currentVideo = null;
-      isPaused= true;
+      isPaused = true;
     }
   }
 
@@ -159,12 +167,14 @@ public class VideoPlayer {
         VideoPlaylist playlist = playlists.get(playlistName);
         if (videoLibrary.isFlagged(videoId)) {
           System.out.printf("Cannot add video to %s: " +
-              "Video is currently flagged (reason: %s)%n", playlistName, videoLibrary.getFlagReason(videoId));
+                  "Video is currently flagged (reason: %s)%n", playlistName,
+              videoLibrary.getFlagReason(videoId));
         } else if (playlist.containsVideo(videoId)) {
           System.out.printf("Cannot add video to %s: Video already added%n", playlistName);
         } else {
           playlist.addVideo(videoId);
-          System.out.printf("Added video to %s: %s%n", playlistName, videoLibrary.getVideo(videoId).getTitle());
+          System.out.printf("Added video to %s: %s%n", playlistName,
+              videoLibrary.getVideo(videoId).getTitle());
         }
       }
     }
@@ -175,7 +185,7 @@ public class VideoPlayer {
       System.out.println("No playlists exist yet");
     } else {
       System.out.println("Showing all playlists:");
-      for (VideoPlaylist playlist: playlists.values()) {
+      for (VideoPlaylist playlist : playlists.values()) {
         // Shows the names (those that were originally created in createPlaylist) of all the available playlists.
         System.out.printf("  %s%n", playlist.getName());
       }
@@ -192,7 +202,7 @@ public class VideoPlayer {
       if (videos.isEmpty()) {
         System.out.println("  No videos here yet");
       } else {
-        for (String videoId: videos) {
+        for (String videoId : videos) {
           // Displays videos in the same order as they were added to the playlist's video list.
           System.out.println(videoLibrary.getVideoString(videoId));
         }
@@ -211,7 +221,8 @@ public class VideoPlayer {
         System.out.printf("Cannot remove video from %s: Video is not in playlist%n", playlistName);
       } else {
         playlist.removeVideo(videoId);
-        System.out.printf("Removed video from %s: %s%n", playlistName, videoLibrary.getVideo(videoId).getTitle());
+        System.out.printf("Removed video from %s: %s%n", playlistName,
+            videoLibrary.getVideo(videoId).getTitle());
       }
     }
   }
@@ -238,7 +249,7 @@ public class VideoPlayer {
   public void searchVideos(String searchTerm) {
     List<Video> videosToPlay = new ArrayList<>();
     // Flagged videos should not show up in search result when searching by text.
-    for (Video video: videoLibrary.getAllowedVideos()) {
+    for (Video video : videoLibrary.getAllowedVideos()) {
       // Performs a case-insensitive search over video titles for searchTerm.
       if (video.getTitle().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))) {
         videosToPlay.add(video);
@@ -250,9 +261,10 @@ public class VideoPlayer {
   public void searchVideosWithTag(String tagName) {
     List<Video> videosToPlay = new ArrayList<>();
     // Flagged videos should not show up in search result when searching by tag.
-    for (Video video: videoLibrary.getAllowedVideos()) {
+    for (Video video : videoLibrary.getAllowedVideos()) {
       // Performs a case-insensitive search over video tags for tagName.
-      if (video.getTags().toString().toLowerCase(Locale.ROOT).contains(tagName.toLowerCase(Locale.ROOT))) {
+      if (video.getTags().toString().toLowerCase(Locale.ROOT)
+          .contains(tagName.toLowerCase(Locale.ROOT))) {
         videosToPlay.add(video);
       }
     }
@@ -277,7 +289,8 @@ public class VideoPlayer {
         }
         // Marks a video as flagged with the specified reason.
         videoLibrary.flagVideo(videoId, reason);
-        System.out.printf("Successfully flagged video: %s (reason: %s)%n", video.getTitle(), reason);
+        System.out
+            .printf("Successfully flagged video: %s (reason: %s)%n", video.getTitle(), reason);
       }
     }
   }
@@ -297,6 +310,7 @@ public class VideoPlayer {
 
   /**
    * Prints a display string for the resulting message after performing the search.
+   *
    * @param searchQuery user-specified search term or tag.
    * @param searchResult the list of videos whose titles contain searchInput.
    */
@@ -312,7 +326,8 @@ public class VideoPlayer {
       searchResult.stream().sorted().forEach(video -> {
         System.out.printf("  %d) %s%n", count.incrementAndGet(), video);
       });
-      System.out.println("Would you like to play any of the above? If yes, specify the number of the video.");
+      System.out.println(
+          "Would you like to play any of the above? If yes, specify the number of the video.");
       System.out.println("If your answer is not a valid number, we will assume it's a no.");
       // Read in the user-input. Ignore this if it is not a valid number.
       Scanner scanner = new Scanner(System.in);
